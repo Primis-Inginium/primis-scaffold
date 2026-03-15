@@ -38,11 +38,12 @@ export const FavoritesList: React.FC = () => {
         <p className="mt-2 max-w-xs text-zinc-500 dark:text-zinc-400">
           Start exploring the gallery and heart your favorite pieces to build your personal collection.
         </p>
-        <Link href="/" className="mt-8">
-          <Button className="rounded-full px-8 font-bold">
-            <ShoppingBag className="mr-2 h-4 w-4" />
-            Browse Gallery
-          </Button>
+        <Link 
+          href="/" 
+          className="mt-8 inline-flex items-center justify-center rounded-full bg-black px-8 py-3 text-sm font-bold text-white transition-colors hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90"
+        >
+          <ShoppingBag className="mr-2 h-4 w-4" />
+          Browse Gallery
         </Link>
       </div>
     );
