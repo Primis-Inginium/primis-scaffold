@@ -1,4 +1,9 @@
-// 🏢 CORE: Reusable primitives found in all Primis-Inginium apps.
-// Place generic components, API utilities, and state managers here.
+/**
+ * Core module exports.
+ * Following Primis-Inginium's strict modular architecture.
+ */
 
-export const CoreIdentity = "Primis-Core";
+export * from './ui';
+export * from './api/art';
+export * from './hooks/useFavorites';
+export * from './hooks/useCart';
