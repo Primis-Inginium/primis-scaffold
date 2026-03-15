@@ -12,6 +12,7 @@ interface ArtCardProps {
   imageUrl: string;
   price?: string;
   isFavorite?: boolean;
+  isOwned?: boolean;
   onFavorite?: (id: string) => void;
   onPurchase?: (id: string) => void;
 }
@@ -24,6 +25,7 @@ export const ArtCard: React.FC<ArtCardProps> = ({
   imageUrl,
   price,
   isFavorite = false,
+  isOwned = false,
   onFavorite,
   onPurchase,
 }) => {
@@ -37,6 +39,12 @@ export const ArtCard: React.FC<ArtCardProps> = ({
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
+        
+        {isOwned && (
+          <div className="absolute top-4 left-4 z-10 rounded-full bg-emerald-500 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white shadow-lg">
+            Collected
+          </div>
+        )}
         
         {/* Hover Overlay */}
         <div className="absolute inset-0 bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex flex-col justify-end p-4">
@@ -55,14 +63,15 @@ export const ArtCard: React.FC<ArtCardProps> = ({
             <Button
               variant="secondary"
               size="sm"
-              className="flex-1 bg-white text-black hover:bg-white/90"
+              className={`flex-1 ${isOwned ? 'bg-zinc-200 text-zinc-500 cursor-not-allowed' : 'bg-white text-black hover:bg-white/90'}`}
+              disabled={isOwned}
               onClick={(e) => {
                 e.preventDefault();
-                onPurchase?.(id);
+                if (!isOwned) onPurchase?.(id);
               }}
             >
               <ShoppingBag className="mr-2 h-4 w-4" />
-              {price || 'Collect'}
+              {isOwned ? 'In Collection' : (price || 'Collect')}
             </Button>
           </div>
         </div>

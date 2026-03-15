@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { ArtCard, MasonryGrid, getArtworksByArtist, Artwork, useFavorites, Button } from '@/core';
+import { ArtCard, MasonryGrid, getArtworksByArtist, Artwork, useFavorites, useCollection, Button } from '@/core';
 import { User, MapPin, Globe, Twitter, Users, Share2, Plus } from 'lucide-react';
+import { CheckoutModal } from '@/features/gallery/components/CheckoutModal';
 
 interface ArtistProfileProps {
   artistId: string;
@@ -13,6 +14,10 @@ export const ArtistProfile: React.FC<ArtistProfileProps> = ({ artistId }) => {
   const [loading, setLoading] = useState(true);
   const [isFollowing, setIsFollowing] = useState(false);
   const { toggleFavorite, isFavorite } = useFavorites();
+  const { isOwned } = useCollection();
+
+  const [selectedArt, setSelectedArt] = useState<Artwork | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     getArtworksByArtist(artistId).then(data => {
@@ -20,6 +25,11 @@ export const ArtistProfile: React.FC<ArtistProfileProps> = ({ artistId }) => {
       setLoading(false);
     });
   }, [artistId]);
+
+  const handlePurchaseClick = (art: Artwork) => {
+    setSelectedArt(art);
+    setIsModalOpen(true);
+  };
 
   if (loading) {
     return (
@@ -103,10 +113,18 @@ export const ArtistProfile: React.FC<ArtistProfileProps> = ({ artistId }) => {
             imageUrl={art.imageUrl}
             price={art.price}
             isFavorite={isFavorite(art.id)}
+            isOwned={isOwned(art.id)}
             onFavorite={(id) => toggleFavorite(id)}
+            onPurchase={() => handlePurchaseClick(art)}
           />
         ))}
       </MasonryGrid>
+
+      <CheckoutModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        artwork={selectedArt} 
+      />
     </div>
   );
 };

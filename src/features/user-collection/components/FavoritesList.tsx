@@ -1,14 +1,19 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { ArtCard, MasonryGrid, getArtworks, Artwork, useFavorites, Button } from '@/core';
+import { ArtCard, MasonryGrid, getArtworks, Artwork, useFavorites, useCollection, Button } from '@/core';
 import { Trash2, ShoppingBag, Heart } from 'lucide-react';
 import Link from 'next/link';
+import { CheckoutModal } from '@/features/gallery/components/CheckoutModal';
 
 export const FavoritesList: React.FC = () => {
   const [artworks, setArtworks] = useState<Artwork[]>([]);
   const [loading, setLoading] = useState(true);
   const { favorites, toggleFavorite, isFavorite, clearFavorites, isLoaded } = useFavorites();
+  const { isOwned } = useCollection();
+
+  const [selectedArt, setSelectedArt] = useState<Artwork | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (isLoaded) {
@@ -19,6 +24,11 @@ export const FavoritesList: React.FC = () => {
       });
     }
   }, [favorites, isLoaded]);
+
+  const handlePurchaseClick = (art: Artwork) => {
+    setSelectedArt(art);
+    setIsModalOpen(true);
+  };
 
   if (loading) {
     return (
@@ -82,10 +92,18 @@ export const FavoritesList: React.FC = () => {
             imageUrl={art.imageUrl}
             price={art.price}
             isFavorite={isFavorite(art.id)}
+            isOwned={isOwned(art.id)}
             onFavorite={(id) => toggleFavorite(id)}
+            onPurchase={() => handlePurchaseClick(art)}
           />
         ))}
       </MasonryGrid>
+
+      <CheckoutModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        artwork={selectedArt} 
+      />
     </section>
   );
 };

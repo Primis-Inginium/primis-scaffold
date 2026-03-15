@@ -7,3 +7,4 @@ export * from './ui';
 export * from './api/art';
 export * from './hooks/useFavorites';
 export * from './hooks/useCart';
+export * from './hooks/useCollection';

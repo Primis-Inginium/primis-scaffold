@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Modal, Button, Artwork } from '@/core';
+import { Modal, Button, Artwork, useCollection } from '@/core';
 import { ShoppingCart, CheckCircle2 } from 'lucide-react';
 
 interface CheckoutModalProps {
@@ -12,10 +12,16 @@ interface CheckoutModalProps {
 
 export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, artwork }) => {
   const [step, setStep] = useState<'review' | 'success'>('review');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const { addToCollection } = useCollection();
 
   const handlePurchase = () => {
+    if (!artwork) return;
+    setIsProcessing(true);
     // Simulate API call
     setTimeout(() => {
+      addToCollection(artwork.id);
+      setIsProcessing(false);
       setStep('success');
     }, 1500);
   };
@@ -53,8 +59,8 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose, a
             </div>
           </div>
 
-          <Button className="w-full" onClick={handlePurchase}>
-            Confirm Purchase
+          <Button className="w-full" onClick={handlePurchase} disabled={isProcessing}>
+            {isProcessing ? 'Processing...' : 'Confirm Purchase'}
           </Button>
         </div>
       ) : (
