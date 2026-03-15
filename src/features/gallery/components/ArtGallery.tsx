@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { ArtCard, MasonryGrid, getArtworks, Artwork, useFavorites } from '@/core';
+import { ArtCard, MasonryGrid, getArtworks, Artwork, useFavorites, useCollection } from '@/core';
 import { CheckoutModal } from './CheckoutModal';
 
 export const ArtGallery: React.FC = () => {
   const [artworks, setArtworks] = useState<Artwork[]>([]);
   const [loading, setLoading] = useState(true);
   const { toggleFavorite, isFavorite } = useFavorites();
+  const { isOwned } = useCollection();
   
   const [selectedArt, setSelectedArt] = useState<Artwork | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,6 +55,7 @@ export const ArtGallery: React.FC = () => {
             imageUrl={art.imageUrl}
             price={art.price}
             isFavorite={isFavorite(art.id)}
+            isOwned={isOwned(art.id)}
             onFavorite={(id) => toggleFavorite(id)}
             onPurchase={() => handlePurchaseClick(art)}
           />
