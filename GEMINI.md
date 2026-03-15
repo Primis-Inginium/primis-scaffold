@@ -28,6 +28,18 @@ The following commands are standard for this project:
 - **Linting:** `npm run lint` (Runs ESLint checks)
 - **Testing:** `npx playwright test` (Runs end-to-end tests)
 
+## 🌿 Git Workflow & Standards
+To maintain project integrity, all contributions MUST follow this workflow:
+
+1.  **Issue-First:** Never start work without a linked GitHub issue. Use `mcp_primis-core_create-backlog` to initialize issues from requirements.
+2.  **Branching:** Create feature/fix branches named as `feat/description-#issue_number` or `fix/description-#issue_number`.
+3.  **Commits:** Use descriptive commit messages. Reference the issue number if applicable.
+4.  **Pull Requests:**
+    - **Title:** Must include the issue number (e.g., `feat: user auth (#12)`).
+    - **Audit Log:** Every PR description MUST include a detailed Audit Log of changes.
+    - **Linking:** PRs must be linked to their respective issues using "Closes #issue_number".
+5.  **Review Protocol:** Monitor for automated (Copilot) and human reviews. Address all comments before merging.
+
 ## 🛡️ Development Conventions & Governance
 To maintain high standards and AI compatibility, follow these guidelines:
 
