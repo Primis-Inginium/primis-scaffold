@@ -1,5 +1,7 @@
-// 🚀 FEATURES: Domain-specific modules.
-// Each subdirectory should be a self-contained feature.
-// Example: src/features/auth, src/features/user-profile
+/**
+ * Features module exports.
+ */
 
-export const FeatureRegistry = "Primis-Features";
+export * from './gallery';
+export * from './artist';
+export * from './user-collection';
